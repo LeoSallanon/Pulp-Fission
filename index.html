@@ -1,11 +1,71 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hello World</title>
+    <title>Prototype tactique 4x4</title>
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <h1>hello world.</h1>
+    <main class="app">
+      <header class="topbar">
+        <h1>Prototype tactique 4x4</h1>
+        <button id="new-game-btn" type="button">Nouvelle partie</button>
+      </header>
+
+      <section class="layout">
+        <section class="arena">
+          <div class="side-row">
+            <div class="reserve" id="ai-reserve">
+              <h2>Réserve IA</h2>
+              <div class="reserve-list" id="ai-reserve-list"></div>
+            </div>
+            <div class="board-block">
+              <h2>Grille IA (haut)</h2>
+              <div class="grid" id="ai-grid"></div>
+            </div>
+          </div>
+
+          <div class="side-row">
+            <div class="reserve" id="player-reserve">
+              <h2>Réserve Joueur</h2>
+              <div class="reserve-list" id="player-reserve-list"></div>
+            </div>
+            <div class="board-block">
+              <h2>Grille Joueur (bas)</h2>
+              <div class="grid" id="player-grid"></div>
+            </div>
+          </div>
+        </section>
+
+        <aside class="sidebar">
+          <section class="status-panel" id="status-panel">
+            <div><strong>Phase:</strong> <span id="phase-label"></span></div>
+            <div><strong>Round:</strong> <span id="round-label"></span></div>
+            <div><strong>Activation:</strong> <span id="activation-label"></span></div>
+            <div><strong>Jetons spéciaux:</strong> <span id="special-token-label"></span></div>
+            <div class="winner" id="winner-label"></div>
+          </section>
+
+          <section class="controls" id="controls">
+            <h2>Action joueur</h2>
+            <p id="control-hint"></p>
+            <div class="action-buttons">
+              <button id="move-skip-btn" type="button">Rester sur place</button>
+              <button id="normal-action-btn" type="button">Attaque normale</button>
+              <button id="special-action-btn" type="button">Coup spécial</button>
+              <button id="pass-action-btn" type="button">Passer</button>
+            </div>
+          </section>
+
+          <section class="log-panel">
+            <h2>Log de combat</h2>
+            <ol id="combat-log"></ol>
+          </section>
+        </aside>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
   </body>
 </html>

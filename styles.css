@@ -1,0 +1,264 @@
+:root {
+  --bg: #10141d;
+  --panel: #1a2230;
+  --cell: #243042;
+  --line: #3b4d67;
+  --text: #ecf1f8;
+  --muted: #a8b6c8;
+  --accent: #6fc3ff;
+  --ok: #82d18d;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  background: linear-gradient(180deg, #0d1118, #10141d 200px);
+  color: var(--text);
+}
+
+.app {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+button {
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.8rem;
+  cursor: pointer;
+  transition: transform 0.16s ease, border-color 0.16s ease;
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  border-color: var(--accent);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 1rem;
+  align-items: start;
+}
+
+.arena {
+  display: grid;
+  gap: 1rem;
+}
+
+.side-row {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.reserve,
+.board-block,
+.status-panel,
+.controls,
+.log-panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 0.85rem;
+  padding: 0.8rem;
+}
+
+.reserve h2,
+.board-block h2,
+.controls h2,
+.log-panel h2 {
+  margin-top: 0;
+  margin-bottom: 0.6rem;
+  font-size: 1rem;
+}
+
+.sidebar {
+  position: sticky;
+  top: 1rem;
+  display: grid;
+  gap: 0.8rem;
+  max-height: calc(100vh - 2rem);
+}
+
+.status-panel {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.winner {
+  color: var(--ok);
+  font-weight: 700;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(84px, 1fr));
+  gap: 0.5rem;
+}
+
+.cell {
+  background: var(--cell);
+  border: 1px solid var(--line);
+  border-radius: 0.65rem;
+  aspect-ratio: 1 / 1;
+  padding: 0.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.cell:hover {
+  box-shadow: inset 0 0 0 1px #6ba3d8;
+}
+
+.cell.can-move {
+  outline: 2px dashed var(--accent);
+  animation: pulseMove 1.15s ease-in-out infinite;
+}
+
+.cell.selectable {
+  outline: 2px solid var(--ok);
+}
+
+.piece {
+  width: 60%;
+  max-width: 62px;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  border: 3px solid rgba(255, 255, 255, 0.75);
+  color: #fff;
+  font-weight: 700;
+  position: relative;
+  font-size: clamp(1.05rem, 1.4vw, 1.5rem);
+  transform-origin: center;
+  animation: piecePop 0.25s ease-out;
+}
+
+.piece.gray {
+  background: #8a939f;
+}
+
+.piece.red {
+  background: #d34a4a;
+}
+
+.piece.blue {
+  background: #3e6de3;
+}
+
+.piece.active {
+  box-shadow: 0 0 0 3px #fff, 0 0 0 6px var(--accent);
+  animation: activePulse 1.2s ease-in-out infinite;
+}
+
+.piece .stats {
+  position: absolute;
+  font-size: 0.65rem;
+  bottom: -1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  color: var(--text);
+}
+
+.reserve-list {
+  display: flex;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.reserve-token {
+  opacity: 0.35;
+}
+
+.reserve-token.available {
+  opacity: 1;
+}
+
+.action-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.45rem;
+}
+
+#combat-log {
+  margin: 0;
+  padding-left: 1.25rem;
+  max-height: 40vh;
+  overflow: auto;
+}
+
+#combat-log li {
+  animation: logIn 0.2s ease-out;
+}
+
+#control-hint {
+  margin-top: 0;
+  color: var(--muted);
+}
+
+@keyframes pulseMove {
+  0%,
+  100% { box-shadow: 0 0 0 0 rgba(111, 195, 255, 0.18); }
+  50% { box-shadow: 0 0 0 6px rgba(111, 195, 255, 0.04); }
+}
+
+@keyframes piecePop {
+  from { transform: scale(0.9); }
+  to { transform: scale(1); }
+}
+
+@keyframes activePulse {
+  0%,
+  100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes logIn {
+  from { opacity: 0; transform: translateY(2px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 1120px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
+    max-height: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .side-row {
+    grid-template-columns: 1fr;
+  }
+
+  .grid {
+    grid-template-columns: repeat(4, minmax(58px, 1fr));
+  }
+}
