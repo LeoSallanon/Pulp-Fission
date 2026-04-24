@@ -28,12 +28,21 @@ const ui = {
   specialTokenLabel: document.getElementById("special-token-label"),
   specialTokenLabelRight: document.getElementById("special-token-label-right"),
   winnerLabel: document.getElementById("winner-label"),
+  initiativeList: document.getElementById("initiative-list"),
+  selectedUnitBadge: document.getElementById("selected-unit-badge"),
+  selectedUnitName: document.getElementById("selected-unit-name"),
+  selectedUnitRole: document.getElementById("selected-unit-role"),
+  selectedUnitPv: document.getElementById("selected-unit-pv"),
+  selectedUnitArmor: document.getElementById("selected-unit-armor"),
+  attackTitle: document.getElementById("attack-title"),
+  attackDescription: document.getElementById("attack-description"),
   controlHint: document.getElementById("control-hint"),
   controls: document.getElementById("controls"),
   moveSkipBtn: document.getElementById("move-skip-btn"),
   normalActionBtn: document.getElementById("normal-action-btn"),
   specialActionBtn: document.getElementById("special-action-btn"),
   passActionBtn: document.getElementById("pass-action-btn"),
+  endTurnBtn: document.getElementById("end-turn-btn"),
   combatLog: document.getElementById("combat-log"),
   newGameBtn: document.getElementById("new-game-btn"),
 };
@@ -667,6 +676,63 @@ function renderStatus() {
       : "";
 }
 
+function getUnitRole(unit) {
+  if (!unit) return "-";
+  if (unit.color === "red") return "Unité offensive";
+  if (unit.color === "blue") return "Unité tactique";
+  return "Unité défensive";
+}
+
+function getAttackText(unit) {
+  if (!unit) return "Sélectionne une unité pour voir les détails de son action.";
+  if (unit.color === "red") return "Inflige 2 dégâts à l'unité ennemie la plus proche sur la même colonne.";
+  if (unit.color === "blue") return "Inflige 1 dégât à toutes les unités de la même colonne.";
+  return "Ne possède pas d'attaque normale offensive.";
+}
+
+function renderInitiative() {
+  if (!ui.initiativeList) return;
+  ui.initiativeList.innerHTML = "";
+  const queue = state.phase === "battle"
+    ? state.turnQueue.filter((u) => u && u.alive)
+    : state.units.filter((u) => u.alive).sort((a, b) => a.initiative - b.initiative);
+  const current = getCurrentUnit();
+
+  queue.forEach((unit) => {
+    const item = document.createElement("li");
+    item.className = `initiative-item ${unit.side}`;
+    if (current?.id === unit.id) item.classList.add("active");
+    item.textContent = `${unit.side === "player" ? "Joueur" : "IA"} ${unit.initiative}`;
+    ui.initiativeList.appendChild(item);
+  });
+}
+
+function renderSelectedUnit() {
+  const actor = getCurrentUnit();
+  if (!ui.selectedUnitName || !ui.selectedUnitBadge) return;
+
+  if (!actor) {
+    ui.selectedUnitBadge.textContent = "-";
+    ui.selectedUnitBadge.className = "unit-badge";
+    ui.selectedUnitName.textContent = "Aucune unité";
+    ui.selectedUnitRole.textContent = "-";
+    ui.selectedUnitPv.textContent = "-";
+    ui.selectedUnitArmor.textContent = "-";
+    ui.attackTitle.textContent = "Attaque";
+    ui.attackDescription.textContent = "Sélectionne une unité pour voir les détails de son action.";
+    return;
+  }
+
+  ui.selectedUnitBadge.textContent = String(actor.initiative);
+  ui.selectedUnitBadge.className = `unit-badge ${actor.color}`;
+  ui.selectedUnitName.textContent = labelUnit(actor);
+  ui.selectedUnitRole.textContent = getUnitRole(actor);
+  ui.selectedUnitPv.textContent = `${Math.max(0, actor.hp)} / ${actor.maxHp}`;
+  ui.selectedUnitArmor.textContent = String(actor.armor);
+  ui.attackTitle.textContent = actor.color === "red" ? "Attaque (Berserker)" : "Attaque";
+  ui.attackDescription.textContent = getAttackText(actor);
+}
+
 function renderControls() {
   const current = getCurrentUnit();
   const playerTurn = state.phase === "battle" && current?.side === "player" && !state.gameOver;
@@ -696,6 +762,8 @@ function render() {
   renderReserve("ai");
   renderReserve("player");
   renderStatus();
+  renderInitiative();
+  renderSelectedUnit();
   renderControls();
   renderLog();
 }
@@ -715,6 +783,9 @@ function bindEvents() {
   ui.normalActionBtn.addEventListener("click", () => completePlayerAction("normal"));
   ui.specialActionBtn.addEventListener("click", () => completePlayerAction("special"));
   ui.passActionBtn.addEventListener("click", () => completePlayerAction("pass"));
+  if (ui.endTurnBtn) {
+    ui.endTurnBtn.addEventListener("click", () => completePlayerAction("pass"));
+  }
 }
 
 function bootstrap() {

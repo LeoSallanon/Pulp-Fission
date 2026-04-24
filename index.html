@@ -20,12 +20,79 @@
             <p id="round-label" class="round-value">1</p>
           </section>
 
-          <section class="hud-panel status-panel" id="status-panel">
-            <h2>Initiative</h2>
+          <section class="hud-panel status-panel compact" id="status-panel">
+            <h2>Statut</h2>
             <div><strong>Phase:</strong> <span id="phase-label"></span></div>
             <div><strong>Activation:</strong> <span id="activation-label"></span></div>
             <div><strong>Jetons spéciaux:</strong> <span id="special-token-label"></span></div>
             <div class="winner" id="winner-label"></div>
+          </section>
+
+          <section class="hud-panel initiative-panel">
+            <h2>Ordre d'activation</h2>
+            <ol id="initiative-list"></ol>
+          </section>
+
+          <section class="hud-panel tools-panel">
+            <button type="button" class="tool-btn">Règles</button>
+            <button type="button" class="tool-btn">Historique</button>
+          </section>
+        </aside>
+
+        <section class="center-stage">
+          <section class="board-lane board-lane-ai">
+            <div class="lane-header">IA</div>
+            <div class="board-shell">
+              <div class="reserve" id="ai-reserve">
+                <h2>Réserve IA</h2>
+                <div class="reserve-list" id="ai-reserve-list"></div>
+              </div>
+              <div class="board-block">
+                <h2>Grille IA (haut)</h2>
+                <div class="grid" id="ai-grid"></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="board-lane board-lane-player">
+            <div class="lane-header">Joueur</div>
+            <div class="board-shell">
+              <div class="reserve" id="player-reserve">
+                <h2>Réserve Joueur</h2>
+                <div class="reserve-list" id="player-reserve-list"></div>
+              </div>
+              <div class="board-block">
+                <h2>Grille Joueur (bas)</h2>
+                <div class="grid" id="player-grid"></div>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <aside class="right-rail">
+          <section class="hud-panel reserve-common">
+            <h2>Réserve commune</h2>
+            <div class="reserve-common-value"><span id="special-token-label-right">--</span> jeton(x)</div>
+          </section>
+
+          <section class="hud-panel unit-panel">
+            <h2>Unité sélectionnée</h2>
+            <div class="unit-head">
+              <div class="unit-badge" id="selected-unit-badge">-</div>
+              <div>
+                <div class="unit-name" id="selected-unit-name">Aucune unité</div>
+                <div class="unit-role" id="selected-unit-role">-</div>
+              </div>
+            </div>
+            <div class="unit-stats">
+              <div><span>PV</span><strong id="selected-unit-pv">-</strong></div>
+              <div><span>Armure</span><strong id="selected-unit-armor">-</strong></div>
+            </div>
+          </section>
+
+          <section class="hud-panel attack-panel">
+            <h2 id="attack-title">Attaque</h2>
+            <p id="attack-description">Sélectionne une unité pour voir les détails de son action.</p>
           </section>
         </aside>
 
@@ -80,6 +147,8 @@
             <h2>Log de combat</h2>
             <ol id="combat-log"></ol>
           </section>
+
+          <button class="end-turn-btn" id="end-turn-btn" type="button">Fin du tour</button>
         </aside>
       </section>
     </main>
