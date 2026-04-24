@@ -60,14 +60,19 @@
         </section>
 
         <aside class="right-rail">
+          <section class="hud-panel reserve-common">
+            <h2>Réserve commune</h2>
+            <div class="reserve-common-value"><span id="special-token-label-right">--</span> jeton(x)</div>
+          </section>
+
           <section class="hud-panel controls" id="controls">
             <h2>Action joueur</h2>
             <p id="control-hint"></p>
             <div class="action-buttons">
-              <button id="move-skip-btn" type="button">Rester sur place</button>
-              <button id="normal-action-btn" type="button">Attaque normale</button>
-              <button id="special-action-btn" type="button">Coup spécial</button>
-              <button id="pass-action-btn" type="button">Passer</button>
+              <button id="move-skip-btn" class="btn-action btn-move" type="button">Rester sur place</button>
+              <button id="normal-action-btn" class="btn-action btn-attack" type="button">Attaque normale</button>
+              <button id="special-action-btn" class="btn-action btn-special" type="button">Coup spécial</button>
+              <button id="pass-action-btn" class="btn-action btn-pass" type="button">Passer</button>
             </div>
           </section>
 

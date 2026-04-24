@@ -26,6 +26,7 @@ const ui = {
   roundLabel: document.getElementById("round-label"),
   activationLabel: document.getElementById("activation-label"),
   specialTokenLabel: document.getElementById("special-token-label"),
+  specialTokenLabelRight: document.getElementById("special-token-label-right"),
   winnerLabel: document.getElementById("winner-label"),
   controlHint: document.getElementById("control-hint"),
   controls: document.getElementById("controls"),
@@ -641,6 +642,9 @@ function renderStatus() {
   ui.phaseLabel.textContent = phaseMap[state.phase] || state.phase;
   ui.roundLabel.textContent = String(state.round);
   ui.specialTokenLabel.textContent = String(state.specialTokens);
+  if (ui.specialTokenLabelRight) {
+    ui.specialTokenLabelRight.textContent = String(state.specialTokens);
+  }
 
   if (state.phase === "placement") {
     const actor = getCurrentPlacementActor();
